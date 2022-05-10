@@ -6,8 +6,7 @@ import 'dart:convert';
 
 void main() {
   // NCMBの初期化
-  NCMB('9170ffcb91da1bbe0eff808a967e12ce081ae9e3262ad3e5c3cac0d9e54ad941',
-      '9e5014cd2d76a73b4596deffdc6ec4028cfc1373529325f8e71b7a6ed553157d');
+  NCMB('YOUR_APPLICATION_KEY', 'YOUR_CLIENT_KEY');
   runApp(const MyApp());
 }
 
@@ -84,9 +83,6 @@ class _MyHomePageState extends State<MyHomePage> {
     final result = await TheAppleSignIn.performRequests([
       const AppleIdRequest(requestedScopes: [Scope.email, Scope.fullName])
     ]);
-    if (result.error != null) {
-      debugPrint(result.error!.localizedDescription);
-    }
     if (result.status != AuthorizationStatus.authorized) return;
     final credential = result.credential!;
     final accessToken = utf8.decode(credential.authorizationCode!.toList());
@@ -97,7 +93,6 @@ class _MyHomePageState extends State<MyHomePage> {
       'access_token': accessToken,
       'client_id': info.packageName
     };
-    debugPrint(accessToken);
     // ログイン実行
     var user = await NCMBUser.loginWith('apple', data);
     // 表示名を追加
